@@ -1469,7 +1469,7 @@ function App() {
               >
                 College of Computing and Information Sciences
               </span>{' '}
-              in collaboration with DRRMHS Unit
+              micko and friends.
             </div>
           </div>
         </footer>

@@ -1285,7 +1285,7 @@ function App() {
 
             {/* RIGHT COLUMN: LOGIN / REGISTER CARD */}
             <div className="auth-card-col">
-              <div className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100" style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '24px', padding: '32px', boxShadow: 'var(--card-shadow)' }}>
+              <div className="w-full max-w-md mx-auto bg-white shadow-xl rounded-2xl p-8 border border-gray-100" style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '24px', padding: '32px', boxShadow: 'var(--card-shadow)' }}>
                 
                 {authMode === 'login' ? (
                   <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

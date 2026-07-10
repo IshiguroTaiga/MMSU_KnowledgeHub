@@ -1483,7 +1483,7 @@ function App() {
               >
                 College of Computing and Information Sciences
               </span>{' '}
-              micko and friends.
+              4A students.
             </div>
           </div>
         </footer>

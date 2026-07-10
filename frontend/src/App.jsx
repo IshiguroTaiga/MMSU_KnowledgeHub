@@ -6,7 +6,9 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
 import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('mmsu_theme') || 'light';
+  });
   
   // Settings Modal states
   const [showSettingsModal, setShowSettingsModal] = useState(false);
@@ -231,11 +233,16 @@ function App() {
   }, [smtpConfig.provider]);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+    setTheme(prev => {
+      const next = prev === 'light' ? 'dark' : 'light';
+      localStorage.setItem('mmsu_theme', next);
+      return next;
+    });
   };
 
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);
+    localStorage.setItem('mmsu_theme', newTheme);
   };
 
   // ----------------------------------------------------

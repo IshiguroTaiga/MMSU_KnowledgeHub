@@ -1,3 +1,8 @@
+
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:5191'
+  : 'https://mmsu-knowledgehub-backend.onrender.com';
+
 import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
@@ -176,7 +181,7 @@ function App() {
 
   // Fetch initial curriculum graph
   useEffect(() => {
-    fetch('http://localhost:5191/api/curriculum')
+    fetch(`${API_BASE_URL}/api/curriculum`)
       .then(res => res.json())
       .then(data => {
         if (data.courses) {
@@ -192,7 +197,7 @@ function App() {
 
   // Recalculate pathfinder plan
   useEffect(() => {
-    fetch('http://localhost:5191/api/recalculate', {
+    fetch(`${API_BASE_URL}/api/recalculate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -241,7 +246,7 @@ function App() {
     setAuthError('');
     setAuthSuccess('');
 
-    fetch('http://localhost:5191/api/login', {
+    fetch(`${API_BASE_URL}/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -276,7 +281,7 @@ function App() {
     setAuthError('');
     setAuthSuccess('');
 
-    fetch('http://localhost:5191/api/register', {
+    fetch(`${API_BASE_URL}/api/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -317,7 +322,7 @@ function App() {
   // ADMIN USER CRUD SERVICES
   // ----------------------------------------------------
   const fetchUsersList = () => {
-    fetch('http://localhost:5191/api/users')
+    fetch(`${API_BASE_URL}/api/users`)
       .then(res => res.json())
       .then(data => {
         setUsersList(data.users || []);
@@ -370,7 +375,7 @@ function App() {
 
     if (editingUserId) {
       // Update User
-      fetch(`http://localhost:5191/api/users/${editingUserId}`, {
+      fetch(`${API_BASE_URL}/api/users/${editingUserId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(crudForm)
@@ -388,7 +393,7 @@ function App() {
         .catch(err => setCrudError(err.message));
     } else {
       // Create User
-      fetch('http://localhost:5191/api/users', {
+      fetch(`${API_BASE_URL}/api/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(crudForm)
@@ -423,7 +428,7 @@ function App() {
     setCrudError('');
     setCrudSuccess('');
 
-    fetch(`http://localhost:5191/api/users/${userId}`, {
+    fetch(`${API_BASE_URL}/api/users/${userId}`, {
       method: 'DELETE'
     })
       .then(res => {
@@ -441,7 +446,7 @@ function App() {
   // SMTP SETTINGS SERVICES
   // ----------------------------------------------------
   const fetchSMTPSettings = () => {
-    fetch('http://localhost:5191/api/settings')
+    fetch(`${API_BASE_URL}/api/settings`)
       .then(res => res.json())
       .then(data => {
         if (data.smtpConfig) {
@@ -460,7 +465,7 @@ function App() {
     e.preventDefault();
     setSettingsSuccess('');
 
-    fetch('http://localhost:5191/api/settings', {
+    fetch(`${API_BASE_URL}/api/settings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(smtpConfig)
@@ -481,7 +486,7 @@ function App() {
     setChatMessages(prev => [...prev, { sender: 'user', text: queryText }]);
     setIsLoadingChat(true);
 
-    fetch(`http://localhost:5191/api/search?q=${encodeURIComponent(queryText)}`)
+    fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(queryText)}`)
       .then(res => res.json())
       .then(data => {
         setIsLoadingChat(false);
@@ -594,7 +599,7 @@ function App() {
       ]
     }));
 
-    fetch('http://localhost:5191/api/sync', {
+    fetch(`${API_BASE_URL}/api/sync`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -646,7 +651,7 @@ function App() {
       Laoag: [...prev.Laoag, `[Simulator] Local edit on ID ${conflictRecordId}: "${laoagContent}"`]
     }));
 
-    fetch('http://localhost:5191/api/sync', {
+    fetch(`${API_BASE_URL}/api/sync`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -662,7 +667,7 @@ function App() {
           Batac: [...prev.Batac, `[Simulator] Delta pushed (TS: ${new Date(batacTimestamp).toLocaleTimeString()}).`]
         }));
 
-        return fetch('http://localhost:5191/api/sync', {
+        return fetch(`${API_BASE_URL}/api/sync`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

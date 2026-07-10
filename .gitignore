@@ -9,9 +9,9 @@ dist-ssr/
 *.local
 
 # SQLite Database files (ignore database binaries but keep data folder)
-data/*.sqlite
-data/*.sqlite-journal
-data/*.sqlite-wal
+backend/data/*.sqlite
+backend/data/*.sqlite-journal
+backend/data/*.sqlite-wal
 
 # Log files
 npm-debug.log*

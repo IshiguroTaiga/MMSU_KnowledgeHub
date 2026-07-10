@@ -17,6 +17,10 @@ function App() {
   // Mobile Nav State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
+  // Auto-Update States
+  const [currentVersion, setCurrentVersion] = useState(null);
+  const [updateAvailable, setUpdateAvailable] = useState(false);
+  
   // Password Visibility States
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegPassword, setShowRegPassword] = useState(false);
@@ -183,6 +187,39 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  // Live update synchronization checker
+  useEffect(() => {
+    // Get initial server startup version
+    fetch(`${API_BASE_URL}/api/version`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.version) {
+          setCurrentVersion(data.version);
+        }
+      })
+      .catch(err => console.warn('[Update Checker] Failed to fetch initial version:', err));
+
+    // Poll for new deployments every 15 seconds
+    const interval = setInterval(() => {
+      fetch(`${API_BASE_URL}/api/version`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.version) {
+            // If currentVersion is set and the server version changed, an update is available!
+            setCurrentVersion(prev => {
+              if (prev && prev !== data.version) {
+                setUpdateAvailable(true);
+              }
+              return prev || data.version;
+            });
+          }
+        })
+        .catch(err => console.warn('[Update Checker] Version check failed:', err));
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Fetch initial curriculum graph
   useEffect(() => {
@@ -716,6 +753,28 @@ function App() {
 
   const formatPstTime = (date) => {
     return date.toLocaleTimeString('en-US', { hour12: true });
+  };
+
+  const renderUpdateToast = () => {
+    if (!updateAvailable) return null;
+    return (
+      <div className="update-toast">
+        <div className="update-toast-content">
+          <span className="update-toast-icon">⚡</span>
+          <div>
+            <div className="update-toast-title">New Update Available</div>
+            <div className="update-toast-desc">MMSU Knowledge Hub has been updated. Refresh to sync.</div>
+          </div>
+        </div>
+        <button 
+          type="button" 
+          className="update-toast-btn"
+          onClick={() => window.location.reload(true)}
+        >
+          Update Now
+        </button>
+      </div>
+    );
   };
 
   const renderUsersCrud = () => {
@@ -1520,6 +1579,7 @@ function App() {
           </div>
         )}
 
+        {renderUpdateToast()}
       </div>
     );
   }
@@ -2158,6 +2218,7 @@ function App() {
           </div>
         </div>
       )}
+      {renderUpdateToast()}
     </div>
   );
 }

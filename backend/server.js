@@ -12,7 +12,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const STARTUP_TIME = Date.now();
 const PORT = 5191; // Port outside the 5173 - 5180 range
+
+app.get('/api/version', (req, res) => {
+  res.json({ version: STARTUP_TIME });
+});
 
 app.use(cors());
 app.use(express.json());

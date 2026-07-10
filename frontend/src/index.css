@@ -1183,6 +1183,13 @@ table td {
   gap: 16px;
 }
 
+.solido-header-user-clock {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .auth-grid-wrapper {
   padding: 60px 24px;
   max-width: 1200px;
@@ -1237,6 +1244,12 @@ table td {
     flex-direction: column !important;
     text-align: center !important;
     gap: 8px !important;
+  }
+  .solido-header-user-clock {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 12px !important;
+    align-items: center !important;
   }
   .auth-grid-wrapper {
     padding: 24px 16px !important;

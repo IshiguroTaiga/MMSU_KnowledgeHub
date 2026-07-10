@@ -1563,8 +1563,8 @@ function App() {
 
       {/* SOLIDO BRANDING HEADER BANNER */}
       <header className="solido-header">
-        <div className="solido-header-content" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1200px', margin: '0 auto', width: '100%', flexWrap: 'wrap', gap: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div className="solido-header-content">
+          <div className="solido-header-brand">
             <img src="/logo_dn.png" style={{ height: '55px', objectFit: 'contain' }} alt="Main Logo" />
             <div>
               <h1 className="solido-title" style={{ fontSize: '22px', margin: 0 }}>MMSU KNOWLEDGE HUB</h1>
@@ -1573,7 +1573,7 @@ function App() {
           </div>
           
           {/* Active User Card & Clock */}
-          <div style={{ display: 'flex', gap: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div className="solido-header-user-clock">
             <div className="pst-clock-card" style={{ textAlign: 'left', minWidth: '180px', padding: '12px 20px' }}>
               <span className="pst-label" style={{ color: 'var(--accent)' }}>Active Session</span>
               <div style={{ fontSize: '14px', fontWeight: '700', color: 'white' }}>{user.name}</div>

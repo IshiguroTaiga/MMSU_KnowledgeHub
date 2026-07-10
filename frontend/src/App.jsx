@@ -807,7 +807,7 @@ function App() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+          <div className="settings-crud-buttons">
             <button type="submit" className="btn-signin" style={{ maxWidth: '150px', padding: '10px' }}>
               {editingUserId ? 'Update User' : 'Create User'}
             </button>

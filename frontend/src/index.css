@@ -1271,6 +1271,7 @@ table td {
     list-style: none;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     z-index: 999;
+    color: var(--text-main); /* FIX: Ensure adaptive text color on mobile */
   }
   .solido-nav-links.mobile-open {
     display: flex;
@@ -1279,6 +1280,7 @@ table td {
     width: 100%;
     padding: 8px 0;
     border-bottom: 1px solid rgba(0,0,0,0.02);
+    color: var(--text-main) !important; /* FIX: Force text color to main text color on mobile */
   }
   .solido-nav-links li:last-child {
     border-bottom: none;
@@ -1506,4 +1508,36 @@ table td {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
   }
+
+  /* Enforce vertical stacking of settings forms, panels, and fields on mobile */
+  .settings-modal-content form,
+  .settings-modal-content .panel {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    padding: 16px 12px !important;
+    gap: 12px !important;
+  }
+  .settings-modal-content input,
+  .settings-modal-content select,
+  .settings-modal-content textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .settings-modal-content button[type="submit"],
+  .settings-modal-content .btn-signin {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 8px 0 0 0 !important;
+  }
+  .settings-crud-buttons {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+}
+
+.settings-crud-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
 }

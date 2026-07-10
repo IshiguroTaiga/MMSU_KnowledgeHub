@@ -227,12 +227,19 @@ body {
    MAIN LAYOUT & SECTIONS
    ---------------------------------------------------- */
 .solido-main-container {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 80rem; /* max-w-7xl (1280px) */
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: 24px 16px; /* px-4 py-6 */
   display: flex;
   flex-direction: column;
   gap: 80px;
+}
+
+@media (min-width: 768px) {
+  .solido-main-container {
+    padding: 24px 24px; /* md:px-6 py-6 */
+  }
 }
 
 .solido-section {
@@ -1482,8 +1489,27 @@ table td {
 .settings-crud-grid,
 .settings-smtp-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .settings-profile-grid,
+  .settings-appearance-grid,
+  .settings-crud-grid,
+  .settings-smtp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .settings-profile-grid,
+  .settings-appearance-grid,
+  .settings-crud-grid,
+  .settings-smtp-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {

@@ -1,0 +1,16 @@
+{
+  "name": "mmsu-knowledge-hub-root",
+  "version": "1.0.0",
+  "description": "Root package.json to manage frontend and backend tasks, configured for Docker-backend + host-frontend workflow.",
+  "private": true,
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "dev": "cd frontend && npm run dev",
+    "dev:local": "npx concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

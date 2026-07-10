@@ -14,6 +14,9 @@ function App() {
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [settingsActiveTab, setSettingsActiveTab] = useState('profile');
   
+  // Mobile Nav State
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
   // Password Visibility States
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegPassword, setShowRegPassword] = useState(false);
@@ -1004,9 +1007,9 @@ function App() {
           </div>
 
           {/* Modal Body */}
-          <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+          <div className="settings-modal-body">
             {/* Sidebar Tabs */}
-            <div style={{ width: '220px', borderRight: '1px solid var(--border-color)', backgroundColor: 'var(--bg-secondary)', padding: '16px 0', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div className="settings-modal-sidebar">
               
               {/* User Profile Card in Sidebar - only show if logged in */}
               {user && (
@@ -1213,9 +1216,13 @@ function App() {
               <img src="/mmsu-logo.png" style={{ height: '40px' }} alt="MMSU Logo" />
               <img src="/CCIS.png" style={{ height: '40px' }} alt="CCIS Logo" />
             </div>
-            <ul className="solido-nav-links" style={{ display: 'flex', listStyle: 'none', alignItems: 'center' }}>
-              <li style={{ cursor: 'pointer', fontSize: '18px' }} onClick={() => { setSettingsActiveTab('appearance'); setShowSettingsModal(true); }}>⚙️</li>
-            </ul>
+            <button 
+              type="button" 
+              style={{ cursor: 'pointer', fontSize: '18px', background: 'none', border: 'none', color: 'var(--text-main)' }} 
+              onClick={() => { setSettingsActiveTab('appearance'); setShowSettingsModal(true); }}
+            >
+              ⚙️
+            </button>
           </div>
         </nav>
         {renderSettingsModal()}
@@ -1241,10 +1248,10 @@ function App() {
 
         {/* Hero & Login Grid */}
         <div id="auth-grid" style={{ padding: '60px 24px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto items-center" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '32px', alignItems: 'center' }}>
+          <div className="auth-grid-container">
             
             {/* LEFT COLUMN: HERO SECTION */}
-            <div className="lg:col-span-7" style={{ gridColumn: 'span 7' }}>
+            <div className="auth-hero-col">
               <span style={{ backgroundColor: 'rgba(217, 119, 6, 0.1)', color: 'var(--secondary)', padding: '6px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>
                 Mariano Marcos State University
               </span>
@@ -1277,7 +1284,7 @@ function App() {
             </div>
 
             {/* RIGHT COLUMN: LOGIN / REGISTER CARD */}
-            <div className="lg:col-span-5" style={{ gridColumn: 'span 5' }}>
+            <div className="auth-card-col">
               <div className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100" style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '24px', padding: '32px', boxShadow: 'var(--card-shadow)' }}>
                 
                 {authMode === 'login' ? (
@@ -1529,19 +1536,26 @@ function App() {
             <img src="/mmsu-logo.png" style={{ height: '32px' }} alt="MMSU Logo" />
             <img src="/CCIS.png" style={{ height: '32px' }} alt="CCIS Logo" />
           </div>
-          <ul className="solido-nav-links">
-            <li onClick={() => { setActiveTab('dashboard'); scrollToSection('news'); }}>Latest News</li>
-            <li onClick={() => { setActiveTab('dashboard'); scrollToSection('categories'); }}>Categories</li>
-            <li onClick={() => { setActiveTab('dashboard'); scrollToSection('links'); }}>Quick Links</li>
-            <li onClick={() => { setActiveTab('handbook-bot'); }}>Handbook Bot</li>
-            <li onClick={() => { setActiveTab('pathfinder'); }}>Prospectus</li>
+          <button 
+            type="button" 
+            className="mobile-nav-toggle" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? '×' : '☰'}
+          </button>
+          <ul className={`solido-nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+            <li onClick={() => { setIsMobileMenuOpen(false); setActiveTab('dashboard'); scrollToSection('news'); }}>Latest News</li>
+            <li onClick={() => { setIsMobileMenuOpen(false); setActiveTab('dashboard'); scrollToSection('categories'); }}>Categories</li>
+            <li onClick={() => { setIsMobileMenuOpen(false); setActiveTab('dashboard'); scrollToSection('links'); }}>Quick Links</li>
+            <li onClick={() => { setIsMobileMenuOpen(false); setActiveTab('handbook-bot'); }}>Handbook Bot</li>
+            <li onClick={() => { setIsMobileMenuOpen(false); setActiveTab('pathfinder'); }}>Prospectus</li>
             
             {/* Conditional Tabs based on User Roles */}
             {user.role !== 'Student' && (
-              <li onClick={() => { setActiveTab('sync'); }}>Prospectus Sync</li>
+              <li onClick={() => { setIsMobileMenuOpen(false); setActiveTab('sync'); }}>Prospectus Sync</li>
             )}
 
-            <li style={{ cursor: 'pointer', fontSize: '18px', marginLeft: '12px' }} onClick={() => { setSettingsActiveTab('profile'); setShowSettingsModal(true); }}>⚙️</li>
+            <li style={{ cursor: 'pointer', fontSize: '18px', marginLeft: '12px' }} onClick={() => { setIsMobileMenuOpen(false); setSettingsActiveTab('profile'); setShowSettingsModal(true); }}>⚙️</li>
           </ul>
         </div>
       </nav>

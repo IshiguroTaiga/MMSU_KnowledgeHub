@@ -1229,8 +1229,8 @@ function App() {
 
         {/* SOLIDO BRANDING HEADER BANNER */}
         <header className="solido-header">
-          <div className="solido-header-content" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1200px', margin: '0 auto', width: '100%', flexWrap: 'wrap', gap: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div className="solido-header-content">
+            <div className="solido-header-brand">
               <img src="/logo_dn.png" style={{ height: '55px', objectFit: 'contain' }} alt="Main Logo" />
               <div>
                 <h1 className="solido-title" style={{ fontSize: '22px', margin: 0 }}>MMSU KNOWLEDGE HUB</h1>
@@ -1247,7 +1247,7 @@ function App() {
         </header>
 
         {/* Hero & Login Grid */}
-        <div id="auth-grid" style={{ padding: '60px 24px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div id="auth-grid" className="auth-grid-wrapper">
           <div className="auth-grid-container">
             
             {/* LEFT COLUMN: HERO SECTION */}
@@ -1285,7 +1285,7 @@ function App() {
 
             {/* RIGHT COLUMN: LOGIN / REGISTER CARD */}
             <div className="auth-card-col">
-              <div className="w-full max-w-md mx-auto bg-white shadow-xl rounded-2xl p-8 border border-gray-100" style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '24px', padding: '32px', boxShadow: 'var(--card-shadow)' }}>
+              <div className="w-full max-w-full md:max-w-md mx-auto bg-white shadow-xl rounded-2xl p-6 md:p-8 border border-gray-100" style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '24px', boxShadow: 'var(--card-shadow)' }}>
                 
                 {authMode === 'login' ? (
                   <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

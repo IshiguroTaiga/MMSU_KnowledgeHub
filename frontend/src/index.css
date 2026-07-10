@@ -1166,6 +1166,30 @@ table td {
 /* ----------------------------------------------------
    RESPONSIVENESS
    ---------------------------------------------------- */
+.solido-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.solido-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.auth-grid-wrapper {
+  padding: 60px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 .mobile-nav-toggle {
   display: none;
   background: none;
@@ -1178,17 +1202,20 @@ table td {
   justify-content: center;
 }
 
-/* Auth Grid Responsiveness */
+/* Auth Grid Responsiveness: stacks vertically as flex flex-col on mobile */
 .auth-grid-container {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   gap: 32px;
-  align-items: center;
 }
 
 @media (min-width: 1025px) {
   .auth-grid-container {
+    display: grid;
     grid-template-columns: repeat(12, 1fr);
+    gap: 32px;
+    align-items: center;
   }
   .auth-hero-col {
     grid-column: span 7;
@@ -1199,6 +1226,21 @@ table td {
 }
 
 @media (max-width: 1024px) {
+  .solido-header-content {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 16px !important;
+  }
+  .solido-header-brand {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 8px !important;
+  }
+  .auth-grid-wrapper {
+    padding: 24px 16px !important;
+  }
   .mobile-nav-toggle {
     display: flex;
   }

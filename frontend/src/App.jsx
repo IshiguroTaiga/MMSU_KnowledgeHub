@@ -2101,7 +2101,7 @@ function App() {
             >
               College of Computing and Information Sciences
             </span>{' '}
-            in collaboration with DRRMHS Unit
+            4A students.
           </p>
         </div>
       </footer>

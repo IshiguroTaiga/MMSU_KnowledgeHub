@@ -89,21 +89,14 @@ function initializeTables() {
       }
     });
 
-    // Seed hits if table is empty
-    db.get("SELECT COUNT(*) as count FROM hits", (err, row) => {
-      if (err) return console.error(err);
-      if (row.count === 0) {
-        console.log('[Database] Seeding default hits (0)...');
-        const defaultHits = [
-          'shifting', 'mrr', 'honors', 'clearance',
-          'portal', 'mvle', 'library', 'tracking', 'mcat', 'alumni'
-        ];
-        const stmt = db.prepare("INSERT INTO hits (id, count) VALUES (?, 0)");
-        defaultHits.forEach(key => {
-          stmt.run(key);
-        });
-        stmt.finalize();
-      }
+    // Seed hits (INSERT OR IGNORE ensures keys exist even if database is already created)
+    const defaultHits = [
+      'shifting', 'mrr', 'honors', 'clearance',
+      'portal', 'mvle', 'library', 'tracking', 'mcat', 'alumni',
+      'news_dost', 'news_suspension'
+    ];
+    defaultHits.forEach(key => {
+      db.run("INSERT OR IGNORE INTO hits (id, count) VALUES (?, 0)", [key]);
     });
   });
 }

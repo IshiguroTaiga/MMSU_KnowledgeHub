@@ -156,6 +156,11 @@ function App() {
     alumni: 0
   });
 
+  const [newsHits, setNewsHits] = useState({
+    news_dost: 0,
+    news_suspension: 0
+  });
+
   // Reference to Handbook bot section for scrolling
   const handbookBotRef = useRef(null);
 
@@ -207,6 +212,10 @@ function App() {
             tracking: data.hits.tracking || 0,
             mcat: data.hits.mcat || 0,
             alumni: data.hits.alumni || 0
+          });
+          setNewsHits({
+            news_dost: data.hits.news_dost || 0,
+            news_suspension: data.hits.news_suspension || 0
           });
         }
       })
@@ -612,7 +621,10 @@ function App() {
     fetch(`${API_BASE_URL}/api/hits/${categoryKey}/increment`, { method: 'POST' })
       .catch(err => console.warn('[Hits Engine] Failed to persist category hit:', err));
     
-    // Scroll to Handbook RAG section
+    // Switch to Handbook Bot tab so the user can interact with the chatbot
+    setActiveTab('handbook-bot');
+    
+    // Scroll to Handbook RAG section (if rendered or on tab mount)
     if (handbookBotRef.current) {
       handbookBotRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -620,7 +632,7 @@ function App() {
     // Auto query
     setTimeout(() => {
       handleQueryRAG(queryText);
-    }, 800);
+    }, 500);
   };
 
   // Increment hit counter & open link
@@ -635,6 +647,18 @@ function App() {
       .catch(err => console.warn('[Hits Engine] Failed to persist link hit:', err));
 
     window.open(url, '_blank');
+  };
+
+  // Increment hit counter for news items & track them
+  const handleNewsClick = (newsKey) => {
+    setNewsHits(prev => ({
+      ...prev,
+      [newsKey]: (prev[newsKey] || 0) + 1
+    }));
+
+    // Persist click count to SQLite database
+    fetch(`${API_BASE_URL}/api/hits/${newsKey}/increment`, { method: 'POST' })
+      .catch(err => console.warn('[Hits Engine] Failed to persist news hit:', err));
   };
 
   // ----------------------------------------------------
@@ -1726,19 +1750,19 @@ function App() {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  <div className="news-feed-item">
+                  <div className="news-feed-item" onClick={() => handleNewsClick('news_dost')} style={{ cursor: 'pointer' }}>
                     <div className="news-feed-meta">
                       <span className="news-tag">CCIS Batac</span>
-                      <span className="hits-tag">92 Hits</span>
+                      <span className="hits-tag">{newsHits.news_dost} Hits</span>
                     </div>
                     <h3>DOST invites award-winning MMSU game developers to Creative Tech Fest</h3>
                     <p>The Department of Science and Technology (DOST) has officially invited students from the College of Computing and Information Sciences to showcase their thesis-designed educational games during the regional Creative Tech Festival.</p>
                   </div>
 
-                  <div className="news-feed-item">
+                  <div className="news-feed-item" onClick={() => handleNewsClick('news_suspension')} style={{ cursor: 'pointer' }}>
                     <div className="news-feed-meta">
                       <span className="news-tag">All Campuses</span>
-                      <span className="hits-tag">154 Hits</span>
+                      <span className="hits-tag">{newsHits.news_suspension} Hits</span>
                     </div>
                     <h3>Class Suspension due to Heavy Monsoon Rainfall</h3>
                     <p>Following local disaster council briefs, academic sessions across Batac, Laoag, and Currimao campuses are shifted to synchronous virtual classes today due to flood risks and transport delays in Ilocos Norte.</p>

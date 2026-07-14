@@ -33,11 +33,13 @@ To address these distinct technical and operational challenges, there is a clear
 ---
 
 ## Objective
-To develop a mobile-responsive, unified academic advising assistant and planning portal (inspired by the DOST SOLIDO Knowledge Hub design) that centralizes university resources and addresses multi-campus information fragmentation. The specific objectives are:
-1.  **Graph-Theoretic Curricular Modeling**: Represent multi-campus curricula as Directed Acyclic Graphs (DAGs) to enable cycle detection (preventing prerequisite loop deadlocks) and dynamically calculate optimal, alternative paths to graduation for irregular, transferee, or returning students.
-2.  **Semantic Student Handbook Policy Retrieval**: Host a local, offline-capable Retrieval-Augmented Generation (RAG) search engine utilizing vector embeddings and cosine similarity to answer student policy queries with precise text chunk citations.
-3.  **Multi-Campus Database Synchronization**: Implement a secure, distributed database syncing engine that connects Batac, Laoag, and Currimao campus nodes to coordinate updates (e.g., student records, schedules) via timestamp-based delta syncing and conflict resolution.
-4.  **Academic Bulletin & Media Walkthroughs**: Develop a real-time academic alert bulletin for critical notices (e.g., enrollment deadlines, suspensions) and embed video guides to walk users through university services.
+The primary objective of this project is to design, develop, and evaluate the **MMSU Knowledge Hub** (a mobile-responsive, offline-resilient academic advising portal and launcher inspired by the DOST SOLIDO dashboard design) within a 6-month development and OJT timeline. To ensure the study is highly structured, the specific objectives are formulated using the **S.M.A.R.T.** (Specific, Measurable, Achievable, Relevant, Time-bound) framework:
+
+1.  **Specific & Measurable (Curriculum Pathfinder)**: Represent 100% of the BS Computer Science curriculum prerequisite dependencies as a Directed Acyclic Graph (DAG) to execute Depth-First Search (DFS) cycle detection and Topological/A* sorting algorithms, generating alternative graduation paths for irregular students.
+2.  **Specific & Measurable (Semantic Policy Retrieval)**: Index 100% of the official MMSU Student Handbook clauses into a local vector search engine (RAG) using TF-IDF and Cosine Similarity, enabling natural-language policy queries with precise text chunk citations.
+3.  **Specific & Measurable (Distributed Database Sync & Hits Persistence)**: Deploy 3 local relational SQLite database nodes (representing Batac, Laoag, and Currimao campuses) running timestamp-based delta synchronization and persistent click-hits tracking for dashboard links and categories.
+4.  **Specific & Measurable (Portal Launcher & Bulletin)**: Develop a unified directory redirect launcher linking all scattered university portals, a real-time advising alert board for registration/suspension notices, and a featured video gallery for campus services walkthroughs.
+5.  **Achievable, Relevant, and Time-bound**: Implement the full system using React (v19), Node.js, and SQLite, and deploy the Progressive Web Application (PWA) containerized via Docker within the 6-phase research timeline.
 
 ---
 
@@ -50,10 +52,10 @@ The research and development will follow a systematic software engineering and c
     *   Implement **Depth-First Search (DFS) / Tarjan's Algorithm** to detect and reject any cycles in the prerequisite tree, ensuring a valid DAG.
     *   Design a **Topological Sorting** pipeline that calculates prerequisite dependencies.
     *   Implement a recalculation algorithm (utilizing topological paths and **Dijkstra's / A\* pathfinding**) to dynamically suggest alternative paths to graduation for students who fail, skip, or transfer out of specific courses.
-3.  **Handbook Parsing & Retrieval Engine Implementation**:
+3.  **Handbook Parsing & NSDB Resource Indexing**:
     *   Convert the official MMSU Student Handbook into a structured, chunk-based Markdown document.
-    *   Build a local, lightweight text chunker and search engine using **TF-IDF (Term Frequency-Inverse Document Frequency) Vectorization** and **Cosine Similarity** to match natural language queries against handbook clauses.
-    *   Program the engine to output answers alongside direct section citations, minimizing semantic search hallucinations.
+    *   Index and classify the handbook categories, redirect links, and policy clauses following the metadata standards of the **DOST National Science Database (NSDB)** (or National S&T Data Bank) managed by DOST-STII, ensuring structured resource organization.
+    *   Build a local, lightweight text chunker and search engine using **TF-IDF (Term Frequency-Inverse Document Frequency) Vectorization** and **Cosine Similarity** to match natural language queries against handbook clauses with direct citations.
 4.  **Distributed Database Design & Sync Setup**:
     *   Create local relational schemas using **SQLite** to represent individual campus nodes (Batac, Laoag, Currimao).
     *   Develop a **Sync Coordinator** using Node.js/Express that runs delta synchronization (syncing only modified records based on timestamps) and resolves master-master database conflicts using vector timestamps.

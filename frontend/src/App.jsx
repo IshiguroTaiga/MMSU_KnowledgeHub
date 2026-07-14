@@ -22,6 +22,7 @@ function App() {
   // Auto-Update States
   const [currentVersion, setCurrentVersion] = useState(null);
   const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [updateCountdown, setUpdateCountdown] = useState(null);
   
   // Password Visibility States
   const [showLoginPassword, setShowLoginPassword] = useState(false);
@@ -257,6 +258,27 @@ function App() {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Handle automatic reload countdown when an update is detected
+  useEffect(() => {
+    if (!updateAvailable) {
+      setUpdateCountdown(null);
+      return;
+    }
+    setUpdateCountdown(5); // Auto-reload in 5 seconds
+  }, [updateAvailable]);
+
+  useEffect(() => {
+    if (updateCountdown === null) return;
+    if (updateCountdown <= 0) {
+      window.location.reload(true);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setUpdateCountdown(prev => (prev !== null ? prev - 1 : null));
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [updateCountdown]);
 
   // Fetch initial curriculum graph
   useEffect(() => {
@@ -857,21 +879,35 @@ function App() {
 
   const renderUpdateToast = () => {
     if (!updateAvailable) return null;
+    const isCountingDown = updateCountdown !== null;
     return (
       <div className="update-toast">
         <div className="update-toast-content">
           <span className="update-toast-icon">⚡</span>
           <div>
-            <div className="update-toast-title">New Update Available</div>
-            <div className="update-toast-desc">MMSU Knowledge Hub has been updated. Refresh to sync.</div>
+            <div className="update-toast-title">
+              {isCountingDown ? 'System Updating...' : 'New Update Available'}
+            </div>
+            <div className="update-toast-desc">
+              {isCountingDown 
+                ? `Syncing new changes automatically in ${updateCountdown}s...` 
+                : 'MMSU Knowledge Hub has been updated. Refresh to sync.'}
+            </div>
           </div>
         </div>
         <button 
           type="button" 
           className="update-toast-btn"
-          onClick={() => window.location.reload(true)}
+          style={{ backgroundColor: isCountingDown ? '#ef4444' : 'var(--secondary)' }}
+          onClick={() => {
+            if (isCountingDown) {
+              setUpdateCountdown(null); // Cancel auto-reload countdown
+            } else {
+              window.location.reload(true); // Manual reload
+            }
+          }}
         >
-          Update Now
+          {isCountingDown ? 'Cancel' : 'Update Now'}
         </button>
       </div>
     );
@@ -1156,14 +1192,7 @@ function App() {
   const renderSettingsModal = () => {
     if (!showSettingsModal) return null;
     return (
-      <div 
-        className="settings-modal-overlay" 
-        onClick={(e) => {
-          if (e.target === e.currentTarget && !isResizingRef.current) {
-            setShowSettingsModal(false);
-          }
-        }}
-      >
+      <div className="settings-modal-overlay">
         <div className="settings-modal-container" onClick={(e) => e.stopPropagation()}>
           
           {/* Modal Header */}

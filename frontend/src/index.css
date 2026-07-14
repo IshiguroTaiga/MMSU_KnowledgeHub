@@ -1467,8 +1467,9 @@ table td {
   border: 1px solid var(--border-color);
   border-radius: 24px;
   width: 90%;
-  max-width: 800px;
-  height: 600px;
+  max-width: 1150px;
+  height: 750px;
+  max-height: 85vh;
   padding: 0;
   box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
   display: flex;

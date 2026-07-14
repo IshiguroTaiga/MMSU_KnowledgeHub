@@ -1480,6 +1480,7 @@ table td {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
+  overflow-x: hidden;
   background-color: var(--bg-main);
   color: var(--text-main);
 }
@@ -1653,4 +1654,27 @@ table td {
     width: 100%;
     text-align: center;
   }
+}
+
+/* Responsive utility support overrides for Settings Modal */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.items-stretch { align-items: stretch; }
+.flex-shrink-0 { flex-shrink: 0; }
+.flex-1 { flex: 1 1 0%; }
+.grid { display: grid; }
+.gap-4 { gap: 1rem; }
+
+@media (min-width: 768px) {
+  .md\:flex-row { flex-direction: row !important; }
+  .md\:w-1\/4 { width: 25% !important; }
+  .md\:w-64 { width: 16rem !important; }
+  .md\:w-3\/4 { width: 75% !important; }
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
 }

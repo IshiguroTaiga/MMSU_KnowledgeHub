@@ -844,7 +844,7 @@ function App() {
         {/* CRUD Form */}
         <form onSubmit={handleCreateOrUpdateUser} className="crud-form" style={{ display: 'flex', flexDirection: 'column', gap: '16px', backgroundColor: 'var(--bg-secondary)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
           <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '700', color: 'var(--text-main)' }}>{editingUserId ? 'Edit User Details' : 'Add New User Account'}</h4>
-          <div className="settings-crud-grid">
+          <div className="settings-crud-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             <div className="input-group">
               <label className="input-label">Full Name</label>
               <input
@@ -1124,9 +1124,9 @@ function App() {
           </div>
 
           {/* Modal Body */}
-          <div className="settings-modal-body">
+          <div className="settings-modal-body flex flex-col md:flex-row w-full h-full items-stretch">
             {/* Sidebar Tabs */}
-            <div className="settings-modal-sidebar">
+            <div className="settings-modal-sidebar md:w-64 flex-shrink-0">
               
               {/* User Profile Card in Sidebar - only show if logged in */}
               {user && (
@@ -1226,7 +1226,7 @@ function App() {
             </div>
 
             {/* Tab Content Area */}
-            <div className="settings-modal-content">
+            <div className="settings-modal-content flex-1">
               
               {/* Tab: Profile - only show if logged in */}
               {settingsActiveTab === 'profile' && user && (

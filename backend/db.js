@@ -75,6 +75,8 @@ function initializeTables() {
         });
         stmt.finalize();
       }
+      // Ensure primary developer name is kept in sync with any updates
+      db.run("UPDATE users SET name = 'Ishi (THerta)' WHERE email = 'ishi@dev.me'");
     });
 
     // Seed default smtp config if smtp_config table is empty

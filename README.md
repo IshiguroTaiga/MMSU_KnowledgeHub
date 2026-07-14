@@ -1,8 +1,8 @@
 # MMSU Knowledge Hub
 
-MMSU Knowledge Hub is a unified, mobile-first academic information portal and advising assistant designed to serve the Mariano Marcos State University community. 
+MMSU Knowledge Hub is an integrated, mobile-first academic advising portal and launcher designed to serve the Mariano Marcos State University community. 
 
-Inspired by the DOST SOLIDO dashboard design, this system bridges the information gaps of the fragmented multi-campus ecosystem by integrating graph-theoretic academic pathfinding, local offline-capable policy retrieval, and secure multi-campus database synchronization.
+Inspired by the DOST SOLIDO dashboard design, this system bridges the information gaps of the scattered university pages and the fragmented multi-campus ecosystem by integrating a centralized portal launcher, graph-theoretic academic pathfinding, local offline-capable policy retrieval, and secure multi-campus database synchronization.
 
 ---
 
@@ -13,6 +13,7 @@ This folder contains the initial codebase blueprints, database designs, and loca
 ```text
 MMSU_KnowledgeHub/
 ├── README.md               # Project overview and architecture details
+├── Research_Plan.md        # Formatted Research Plan for submission
 ├── data/
 │   ├── mmsu_handbook.md    # Local Student Handbook Markdown replica
 │   ├── database_schema.sql # Relational schemas for Batac, Laoag, and Currimao nodes
@@ -46,3 +47,8 @@ MMSU_KnowledgeHub/
 *   **Topology:** Master-to-Master or Hub-and-Spoke replication connecting local SQL database nodes in **Batac**, **Laoag**, and **Currimao** campuses.
 *   **Delta Syncing:** To preserve bandwidth, nodes only synchronize changes (deltas) logged since the last successful sync timestamp.
 *   **Conflict Resolution:** Relies on deterministic conflict resolution algorithms (combining Vector Timestamps and priority rules) to resolve data collisions (e.g., matching room reassignments or grade modifications across campuses) without administrative intervention.
+
+---
+
+## 📄 Thesis Research Plan
+A structured thesis research proposal has been drafted following the official academic template format. You can access it directly at [Research_Plan.md](file:///C:/Users/TUF/OneDrive/Desktop/DOST%20Replica/MMSU_KnowledgeHub/Research_Plan.md).

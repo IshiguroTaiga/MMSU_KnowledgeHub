@@ -165,6 +165,7 @@ function App() {
 
   // Reference to Handbook bot section for scrolling
   const handbookBotRef = useRef(null);
+  const isResizingRef = useRef(false);
 
   const SUGGESTED_QUESTIONS = [
     "What GWA is needed for Latin honors?",
@@ -307,6 +308,9 @@ function App() {
 
     const handleMouseUp = () => {
       setIsResizing(false);
+      setTimeout(() => {
+        isResizingRef.current = false;
+      }, 50);
     };
 
     if (isResizing) {
@@ -645,6 +649,7 @@ function App() {
   const startResizing = (e) => {
     e.preventDefault();
     setIsResizing(true);
+    isResizingRef.current = true;
   };
 
   // Increment hit counter & scroll/trigger RAG
@@ -1151,7 +1156,14 @@ function App() {
   const renderSettingsModal = () => {
     if (!showSettingsModal) return null;
     return (
-      <div className="settings-modal-overlay" onClick={() => setShowSettingsModal(false)}>
+      <div 
+        className="settings-modal-overlay" 
+        onClick={(e) => {
+          if (e.target === e.currentTarget && !isResizingRef.current) {
+            setShowSettingsModal(false);
+          }
+        }}
+      >
         <div className="settings-modal-container" onClick={(e) => e.stopPropagation()}>
           
           {/* Modal Header */}

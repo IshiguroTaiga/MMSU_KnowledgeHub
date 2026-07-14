@@ -510,6 +510,39 @@ app.get('/api/curriculum', (req, res) => {
   }
 });
 
+// Fetch all hit counts from database
+app.get('/api/hits', async (req, res) => {
+  try {
+    const rows = await dbQuery("SELECT id, count FROM hits");
+    const hitsMap = {};
+    rows.forEach(row => {
+      hitsMap[row.id] = row.count;
+    });
+    res.json({ hits: hitsMap });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error fetching hit counts.' });
+  }
+});
+
+// Increment hit count for a specific key
+app.post('/api/hits/:key/increment', async (req, res) => {
+  const { key } = req.params;
+  try {
+    const exists = await dbGet("SELECT count FROM hits WHERE id = ?", [key]);
+    if (exists !== undefined) {
+      await dbRun("UPDATE hits SET count = count + 1 WHERE id = ?", [key]);
+    } else {
+      await dbRun("INSERT INTO hits (id, count) VALUES (?, 1)", [key]);
+    }
+    const updated = await dbGet("SELECT count FROM hits WHERE id = ?", [key]);
+    res.json({ key, count: updated.count });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error incrementing hit count.' });
+  }
+});
+
 app.post('/api/recalculate', (req, res) => {
   const { failedCourses, currentYear, currentSemester } = req.body;
   try {

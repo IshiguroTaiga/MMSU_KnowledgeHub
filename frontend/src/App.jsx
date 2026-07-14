@@ -141,19 +141,19 @@ function App() {
 
   // Hit Counters for Categories & Quick Links (Simulates live database hits)
   const [categoryHits, setCategoryHits] = useState({
-    shifting: 128,
-    mrr: 96,
-    honors: 245,
-    clearance: 77
+    shifting: 0,
+    mrr: 0,
+    honors: 0,
+    clearance: 0
   });
 
   const [linkHits, setLinkHits] = useState({
-    portal: 63,
-    mvle: 58,
-    library: 137,
-    tracking: 42,
-    mcat: 48,
-    alumni: 32
+    portal: 0,
+    mvle: 0,
+    library: 0,
+    tracking: 0,
+    mcat: 0,
+    alumni: 0
   });
 
   // Reference to Handbook bot section for scrolling
@@ -187,6 +187,31 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  // Fetch initial hit counts from SQLite database on mount
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/api/hits`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.hits) {
+          setCategoryHits({
+            shifting: data.hits.shifting || 0,
+            mrr: data.hits.mrr || 0,
+            honors: data.hits.honors || 0,
+            clearance: data.hits.clearance || 0
+          });
+          setLinkHits({
+            portal: data.hits.portal || 0,
+            mvle: data.hits.mvle || 0,
+            library: data.hits.library || 0,
+            tracking: data.hits.tracking || 0,
+            mcat: data.hits.mcat || 0,
+            alumni: data.hits.alumni || 0
+          });
+        }
+      })
+      .catch(err => console.warn('[Hits Engine] Failed to fetch initial hits:', err));
+  }, []);
 
   // Live update synchronization checker
   useEffect(() => {
@@ -580,8 +605,12 @@ function App() {
   const handleCategoryClick = (categoryKey, queryText) => {
     setCategoryHits(prev => ({
       ...prev,
-      [categoryKey]: prev[categoryKey] + 1
+      [categoryKey]: (prev[categoryKey] || 0) + 1
     }));
+
+    // Persist click count to SQLite database
+    fetch(`${API_BASE_URL}/api/hits/${categoryKey}/increment`, { method: 'POST' })
+      .catch(err => console.warn('[Hits Engine] Failed to persist category hit:', err));
     
     // Scroll to Handbook RAG section
     if (handbookBotRef.current) {
@@ -598,8 +627,13 @@ function App() {
   const handleLinkClick = (linkKey, url) => {
     setLinkHits(prev => ({
       ...prev,
-      [linkKey]: prev[linkKey] + 1
+      [linkKey]: (prev[linkKey] || 0) + 1
     }));
+
+    // Persist click count to SQLite database
+    fetch(`${API_BASE_URL}/api/hits/${linkKey}/increment`, { method: 'POST' })
+      .catch(err => console.warn('[Hits Engine] Failed to persist link hit:', err));
+
     window.open(url, '_blank');
   };
 

@@ -51,6 +51,14 @@ function initializeTables() {
       )
     `);
 
+    // Create hits table
+    db.run(`
+      CREATE TABLE IF NOT EXISTS hits (
+        id TEXT PRIMARY KEY,
+        count INTEGER DEFAULT 0
+      )
+    `);
+
     // Seed default users if users table is empty
     db.get("SELECT COUNT(*) as count FROM users", (err, row) => {
       if (err) return console.error(err);
@@ -78,6 +86,23 @@ function initializeTables() {
           INSERT INTO smtp_config (id, provider, senderName, senderEmail, host, port, username, password)
           VALUES (1, 'Outlook / Office 365', 'MMSU Knowledge Hub', 'hub@mmsu.edu.ph', 'smtp.office365.com', 587, 'mickogabriel75@gmail.com', 'app-password-placeholder')
         `);
+      }
+    });
+
+    // Seed hits if table is empty
+    db.get("SELECT COUNT(*) as count FROM hits", (err, row) => {
+      if (err) return console.error(err);
+      if (row.count === 0) {
+        console.log('[Database] Seeding default hits (0)...');
+        const defaultHits = [
+          'shifting', 'mrr', 'honors', 'clearance',
+          'portal', 'mvle', 'library', 'tracking', 'mcat', 'alumni'
+        ];
+        const stmt = db.prepare("INSERT INTO hits (id, count) VALUES (?, 0)");
+        defaultHits.forEach(key => {
+          stmt.run(key);
+        });
+        stmt.finalize();
       }
     });
   });

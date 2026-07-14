@@ -1678,3 +1678,34 @@ table td {
 @media (min-width: 1024px) {
   .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
 }
+
+.sidebar-resizer {
+  width: 4px;
+  cursor: col-resize;
+  background-color: var(--border-color);
+  transition: background-color 0.2s, width 0.2s;
+  flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+}
+
+.sidebar-resizer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
+}
+
+.sidebar-resizer:hover,
+.sidebar-resizer:active {
+  background-color: var(--secondary);
+  width: 6px;
+}
+
+@media (max-width: 768px) {
+  .sidebar-resizer {
+    display: none !important;
+  }
+}

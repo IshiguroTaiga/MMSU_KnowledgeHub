@@ -13,6 +13,8 @@ function App() {
   // Settings Modal states
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [settingsActiveTab, setSettingsActiveTab] = useState('profile');
+  const [sidebarWidth, setSidebarWidth] = useState(220); // Default width in pixels
+  const [isResizing, setIsResizing] = useState(false);
   
   // Mobile Nav State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -288,6 +290,35 @@ function App() {
       })
       .catch(err => console.error('Error recalculating plan:', err));
   }, [failedCourses, currentYear, currentSemester]);
+
+  // Handle resizing of the settings modal sidebar on mouse drag
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isResizing) return;
+      const modalBody = document.querySelector('.settings-modal-body');
+      if (!modalBody) return;
+      const rect = modalBody.getBoundingClientRect();
+      const newWidth = e.clientX - rect.left;
+      // Impose boundaries (Min 160px, Max 450px)
+      if (newWidth >= 160 && newWidth <= 450) {
+        setSidebarWidth(newWidth);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isResizing]);
 
   // Fetch User database & SMTP settings if user is Admin/Super Admin
   useEffect(() => {
@@ -608,6 +639,12 @@ function App() {
     if (!chatInput.trim()) return;
     handleQueryRAG(chatInput.trim());
     setChatInput('');
+  };
+
+  // Start resizing event for sidebar resizer
+  const startResizing = (e) => {
+    e.preventDefault();
+    setIsResizing(true);
   };
 
   // Increment hit counter & scroll/trigger RAG
@@ -1126,7 +1163,7 @@ function App() {
           {/* Modal Body */}
           <div className="settings-modal-body flex flex-col md:flex-row w-full h-full items-stretch">
             {/* Sidebar Tabs */}
-            <div className="settings-modal-sidebar md:w-64 flex-shrink-0">
+            <div className="settings-modal-sidebar flex-shrink-0" style={{ width: `${sidebarWidth}px` }}>
               
               {/* User Profile Card in Sidebar - only show if logged in */}
               {user && (
@@ -1224,6 +1261,12 @@ function App() {
                 </button>
               )}
             </div>
+
+            {/* Resizer bar */}
+            <div 
+              className="sidebar-resizer" 
+              onMouseDown={startResizing} 
+            />
 
             {/* Tab Content Area */}
             <div className="settings-modal-content flex-1">

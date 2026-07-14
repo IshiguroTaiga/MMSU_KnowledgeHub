@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS smtp_config (
 
 -- Seed Default Data
 INSERT OR IGNORE INTO users (id, name, email, password, role, studentId, college) VALUES 
-(1, 'Ishi (Lead Developer)', 'ishi@dev.me', 'SQDZerO2', 'Super Admin', '23-140015', 'CCIS'),
+(1, 'Ishi (THerta)', 'ishi@dev.me', 'SQDZerO2', 'Super Admin', '23-140015', 'CCIS'),
 (2, 'Faculty Evaluator', 'faculty@mmsu.edu.ph', 'password123', 'Faculty', '00-000001', 'CCIS'),
 (3, 'Regular Student', 'student@mmsu.edu.ph', 'password123', 'Student', '23-100001', 'CCIS');
 

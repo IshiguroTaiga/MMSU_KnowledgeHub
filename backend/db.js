@@ -65,7 +65,7 @@ function initializeTables() {
       if (row.count === 0) {
         console.log('[Database] Seeding default users...');
         const defaultUsers = [
-          { name: 'Ishi (Lead Developer)', email: 'ishi@dev.me', password: 'SQDZerO2', role: 'Super Admin', studentId: '23-140015', college: 'CCIS' },
+          { name: 'Ishi (THerta)', email: 'ishi@dev.me', password: 'SQDZerO2', role: 'Super Admin', studentId: '23-140015', college: 'CCIS' },
           { name: 'Faculty Evaluator', email: 'faculty@mmsu.edu.ph', password: 'password123', role: 'Faculty', studentId: '00-000001', college: 'CCIS' },
           { name: 'Regular Student', email: 'student@mmsu.edu.ph', password: 'password123', role: 'Student', studentId: '23-100001', college: 'CCIS' }
         ];

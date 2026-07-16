@@ -1,7 +1,7 @@
 # Outline of the Research Plan
 
 ## Research Title
-**MMSU Knowledge Hub**: An Integrated Academic Advising Portal and Launcher with Graph-Theoretic Pathfinding and Semantic Policy Retrieval
+**MMSU Knowledge Hub**: An Integrated Multi-Campus Academic Information System with Graph-Theoretic Pathfinding and Semantic Policy Retrieval
 
 ### Group Members
 *   **Bagasani, Nythan**
@@ -12,34 +12,16 @@
 ---
 
 ## Problem Statement
-While Mariano Marcos State University (MMSU) maintains an official website, a student portal, the MMSU Virtual Learning Environment (MVLE), and other digital platforms, there is no dedicated website that consolidates and redirects users to all the university's scattered online resources, department pages, and social media announcements. Currently, vital student guides, college-specific portals, and academic advisories are scattered across disjointed sites and various Facebook pages. Because there is no single directory or launchpad to index and redirect students to these separate digital nodes, students face severe information fragmentation. They must navigate multiple independent platforms just to retrieve basic academic information, leading to search delays, missed announcements, and confusion.
-
-Specifically, students, academic advisers, and administrative departments face critical operational and informational gaps across four main areas:
-
-1. **Curriculum Complexity and Advising Bottlenecks:**
-   Irregular, transferee, and returning students frequently face difficulty tracking complex prerequisite chains and plotting graduation roadmaps. Because current portals lack automated topological modeling tools, students and advisers must manually map prerequisite paths. This manual process is prone to human error, risking academic deadlocks (e.g., prerequisite loops) and delaying graduation. Department chairs and advisers also suffer from severe administrative overhead during peak enrollment periods due to this manual vetting process.
-
-2. **Friction in Student Handbook Navigation:**
-   Important academic policies regarding retention, grading, shifting, and residency are locked within dense, monolithic PDF handbook documents spanning hundreds of pages. Keyword searching is often ineffective and fails to comprehend semantic or natural-language student queries. Without a local, offline-resilient, semantic search and retrieval system, students struggle to quickly find exact policy sections, leading to academic friction and missed administrative guidelines.
-
-3. **Multi-Campus Data Synchronization Delays:**
-   The physical separation of MMSU regional campuses (Batac, Laoag, and Currimao) results in fragmented local academic databases. Since these areas are prone to network outages and bandwidth constraints in Ilocos Norte, real-time database synchronization is unreliable. Consequently, local nodes fail to coordinate academic records and scheduling updates efficiently, causing data discrepancies and administrative delays across campuses.
-
-4. **Fragmented Academic Notice Dissemination:**
-   University updates, deadlines, and events are scattered across informal and disparate channels, including separate campus Facebook pages, department group chats, and physical bulletin boards. This fragmentation leads to information overload and notification fatigue. Students frequently miss critical academic opportunities (e.g., scholarship applications, special exam schedules) because they lack a single, aggregated, and filtered channel.
-
-To address these distinct technical and operational challenges, there is a clear need for a dedicated, separate academic advising utility—the **MMSU Knowledge Hub**—designed to bridge these functional gaps.
+While the official Mariano Marcos State University (MMSU) website serves as a public-facing general information portal, it is not designed to support specialized, interactive, academic planning, advising, and distributed database utilities. Yes we have students portal and mvle but they lack the specialized functionality required for complex academic planning. Furthermore, searching for specific university regulations requires manually navigating dense, monolithic handbook documents due to the lack of a semantic search retrieval system.
 
 ---
 
 ## Objective
-The primary objective of this project is to design, develop, and evaluate the **MMSU Knowledge Hub** (a mobile-responsive, offline-resilient academic advising portal and launcher inspired by the DOST SOLIDO dashboard design) within a 6-month development and OJT timeline. To ensure the study is highly structured, the specific objectives are formulated using the **S.M.A.R.T.** (Specific, Measurable, Achievable, Relevant, Time-bound) framework:
-
-1.  **Specific & Measurable (Curriculum Pathfinder)**: Represent 100% of the BS Computer Science curriculum prerequisite dependencies as a Directed Acyclic Graph (DAG) to execute Depth-First Search (DFS) cycle detection and Topological/A* sorting algorithms, generating alternative graduation paths for irregular students.
-2.  **Specific & Measurable (Semantic Policy Retrieval)**: Index 100% of the official MMSU Student Handbook clauses into a local vector search engine (RAG) using TF-IDF and Cosine Similarity, enabling natural-language policy queries with precise text chunk citations.
-3.  **Specific & Measurable (Distributed Database Sync & Hits Persistence)**: Deploy 3 local relational SQLite database nodes (representing Batac, Laoag, and Currimao campuses) running timestamp-based delta synchronization and persistent click-hits tracking for dashboard links and categories.
-4.  **Specific & Measurable (Portal Launcher & Bulletin)**: Develop a unified directory redirect launcher linking all scattered university portals, a real-time advising alert board for registration/suspension notices, and a featured video gallery for campus services walkthroughs.
-5.  **Achievable, Relevant, and Time-bound**: Implement the full system using React (v19), Node.js, and SQLite, and deploy the Progressive Web Application (PWA) containerized via Docker within the 6-phase research timeline.
+To develop a mobile-responsive, unified academic advising assistant and planning portal (inspired by the DOST SOLIDO Knowledge Hub design) that centralizes university resources and addresses multi-campus information fragmentation. The specific objectives are:
+1.  **Graph-Theoretic Curricular Modeling**: Represent multi-campus curricula as Directed Acyclic Graphs (DAGs) to enable cycle detection (preventing prerequisite loop deadlocks) and dynamically calculate optimal, alternative paths to graduation for irregular, transferee, or returning students.
+2.  **Semantic Student Handbook Policy Retrieval**: Host a local, offline-capable Retrieval-Augmented Generation (RAG) search engine utilizing vector embeddings and cosine similarity to answer student policy queries with precise text chunk citations.
+3.  **Multi-Campus Database Synchronization**: Implement a secure, distributed database syncing engine that connects Batac, Laoag, and Currimao campus nodes to coordinate updates (e.g., student records, schedules) via timestamp-based delta syncing and conflict resolution.
+4.  **Social Channel Event Aggregation**: Automate the aggregation and categorization of academic updates, notices, and events from social media channels into a single, clean notification feed.
 
 ---
 
@@ -52,16 +34,15 @@ The research and development will follow a systematic software engineering and c
     *   Implement **Depth-First Search (DFS) / Tarjan's Algorithm** to detect and reject any cycles in the prerequisite tree, ensuring a valid DAG.
     *   Design a **Topological Sorting** pipeline that calculates prerequisite dependencies.
     *   Implement a recalculation algorithm (utilizing topological paths and **Dijkstra's / A\* pathfinding**) to dynamically suggest alternative paths to graduation for students who fail, skip, or transfer out of specific courses.
-3.  **Handbook Parsing & NSDB Resource Indexing**:
+3.  **Handbook Parsing & Retrieval Engine Implementation**:
     *   Convert the official MMSU Student Handbook into a structured, chunk-based Markdown document.
-    *   Index and classify the handbook categories, redirect links, and policy clauses following the metadata standards of the **DOST National Science Database (NSDB)** (or National S&T Data Bank) managed by DOST-STII, ensuring structured resource organization.
-    *   Build a local, lightweight text chunker and search engine using **TF-IDF (Term Frequency-Inverse Document Frequency) Vectorization** and **Cosine Similarity** to match natural language queries against handbook clauses with direct citations.
+    *   Build a local, lightweight text chunker and search engine using **TF-IDF (Term Frequency-Inverse Document Frequency) Vectorization** and **Cosine Similarity** to match natural language queries against handbook clauses.
+    *   Program the engine to output answers alongside direct section citations, minimizing semantic search hallucinations.
 4.  **Distributed Database Design & Sync Setup**:
     *   Create local relational schemas using **SQLite** to represent individual campus nodes (Batac, Laoag, Currimao).
     *   Develop a **Sync Coordinator** using Node.js/Express that runs delta synchronization (syncing only modified records based on timestamps) and resolves master-master database conflicts using vector timestamps.
 5.  **Frontend Dashboard Integration**:
     *   Develop a responsive, mobile-first Web Application using **React (v19)** and **Vite (v8)**, styled with clean custom CSS.
-    *   Integrate a unified quick-link portal directory, a real-time academic alert bulletin, and a featured video gallery for academic walkthroughs inspired by the DOST SOLIDO layout.
     *   Integrate interactive graph visualizations for curriculum pathfinding and a messaging UI for the handbook bot.
 6.  **Testing, Evaluation & Deployment**:
     *   Verify DAG cycle detection accuracy.
@@ -94,11 +75,10 @@ The research and development will follow a systematic software engineering and c
 ---
 
 ## Expected Output
-1.  **Progressive Web Application (PWA)**: A mobile-responsive academic hub featuring a high-fidelity layout inspired by the DOST SOLIDO dashboard, serving as a dedicated launcher and advising interface.
-2.  **Interactive Curriculum Pathfinder**: A graphical visualization interface enabling students to track progress, check prerequisites, and automatically recalculate curriculum roadmaps.
+1.  **Progressive Web Application (PWA)**: A mobile-responsive academic hub featuring a high-fidelity layout inspired by the DOST SOLIDO dashboard, serving as a dedicated, specialized interface for academic planning.
+2.  **Interactive Curriculum Pathfinder**: A graphical visualization interface enabling students to track their current progress, check prerequisites, and automatically recalculate their curriculum roadmaps.
 3.  **Local Policy Consulting Chatbot**: An offline-capable, vector-search-based chatbot that queries the student handbook and prints responses with matching citations.
 4.  **Multi-Campus Database Synchronization Framework**: A working distributed database synchronization engine that connects Batac, Laoag, and Currimao nodes and resolves conflicts deterministically.
-5.  **Advising Alert Bulletin & Media Walkthrough Portal**: An integrated module offering real-time alerts on registration/clearance deadlines and embedded video walkthroughs for campus services.
 
 ---
 
@@ -112,3 +92,16 @@ The research and development will follow a systematic software engineering and c
 ## Aligned SDG
 *   **SDG 4: Quality Education** – Equipping students and advisers with centralized, accurate academic roadmaps and direct access to university policies, thus reducing academic friction.
 *   **SDG 9: Industry, Innovation, and Infrastructure** – Introducing a decentralized, offline-resilient multi-campus database architecture and advanced graph-theoretic models to university information infrastructure.
+---
+
+## Lead Researcher & Developer Profile and Self-Evaluation
+
+To ensure the successful technical execution of the MMSU Knowledge Hub, this section details the research interests, development plans, and self-evaluation of the lead developer, **[Lead Developer]**, who is responsible for the system's core engineering.
+
+### [Lead Developer] (Lead Systems Developer)
+*   **Research Interest & Motivation:** The motivation for building this platform stems directly from my OJT experience at the IT Services & Management (ITSM) unit of [Agency Redacted for Anonymity]. Observing their robust, integrated, and highly traceable institutional systems highlighted the operational gaps within our current university information infrastructure, prompting the question: “What if there was a centralized platform designed specifically to bridge the information fragments, scattered resources, and curriculum tracking challenges faced by MMSU students?” I mean sure MVLE and Student Portal exists but still this inquiry directly inspired the conception of the MMSU Knowledge Hub as mentioned in the problem statement. Leveraging my hands-on exposure to full-stack architectural integration and distributed database layouts, this research serves as a practical test bed to apply these methodologies to real-world academic advising challenges appropriate for a thesis. Again (unless there is an existing one out there that we don't know of).
+*   **Team Plan:** Because each group member has submitted an individual capstone/thesis proposal, the formal execution of this project and the corresponding division of labor WILL depend on whether this specific proposal is selected for development.
+*   **Strengths & Weaknesses (Thesis-Specific):**
+    *   *Strengths:* Experience building web applications using frontend scripting and styling (HTML, CSS, JavaScript, basic React), backend routing (PHP, Flask, basic Node.js), and relational databases (MySQL, SQLite). Additionally, I am highly proficient in AI-assisted development, leveraging agentic coding tools (like Antigravity) to rapidly navigate codebases, debug system conflicts, and implement features efficiently.
+    *   *Weaknesses:* Limited experience writing advanced graph-based algorithms, configuring advanced NLP models, managing wide-scale database synchronization, and navigating complex, unfamiliar architectures.
+*   **Compensation Strategy:** I will leverage online documentation, developer resources, and AI tools to research, build isolated prototypes, and adapt quickly to unfamiliar requirements as development progresses.
